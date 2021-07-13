@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="CompleteHero\" />
     <Folder Include="Biography\" />
     <Folder Include="Appearance\" />
     <Folder Include="Connections\" />
@@ -13,6 +12,11 @@
     <Folder Include="Name\" />
     <Folder Include="Work\" />
     <Folder Include="Powerstats\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SuperHeroDomain\SuperHeroDomain.csproj" />
+    <ProjectReference Include="..\SuperHeroMediator\SuperHeroMediator.csproj" />
   </ItemGroup>
 
 </Project>
