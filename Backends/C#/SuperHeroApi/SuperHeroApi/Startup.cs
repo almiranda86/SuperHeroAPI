@@ -24,8 +24,6 @@ namespace SuperHeroApi
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(GetCompleteHeroByIdRequestHandler));
-
-            //services.AddTransient(typeof(IRequestMediatorService<,>), typeof(ServiceRequestHandler<,>));
             services.AddControllers();
         }
 
