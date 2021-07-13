@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SuperHeroDomain.Model
 {
-    class Connections
+    public class Connections
     {
         public string GroupAffiliation { get; set; }
         public string Relatives { get; set; }
