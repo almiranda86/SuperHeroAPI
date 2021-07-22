@@ -14,6 +14,8 @@ For the backend, I'm aiming to develop this with:
  - Go
  - Python
  - Ruby
+ - PHP
+ - NestJs
 
 For the frontend, I'm aiming to develop this with:
 
@@ -23,6 +25,7 @@ For the frontend, I'm aiming to develop this with:
  - Next 
  - Blazor 
  - RubyOnRails
+ - PHP
 
 For the  mobile, I'm aiming to develop this with:
 
