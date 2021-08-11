@@ -1,7 +1,7 @@
 ﻿using SuperHeroRepository.HeroMaster;
 using System.Threading.Tasks;
 
-namespace SuperHeroRepository.Behavior
+namespace SuperHeroDomain.Behavior
 {
     public interface IHeroPersister
     {

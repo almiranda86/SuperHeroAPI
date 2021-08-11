@@ -11,6 +11,7 @@ using SuperHeroRepository.Database;
 using SuperHeroRepository.Lookup;
 using SuperHeroRepository.Persister;
 using SuperHeroService.CompleteHero;
+using System;
 using System.Reflection;
 
 namespace SuperHeroApi
@@ -39,7 +40,7 @@ namespace SuperHeroApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -58,6 +59,8 @@ namespace SuperHeroApi
             });
 
             ServiceLocator.SetLocatorProvider(app.ApplicationServices);
+
+            serviceProvider.GetService<IDatabaseStartUp>().Setup();
         }
     }
 }

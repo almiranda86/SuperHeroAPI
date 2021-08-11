@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace SuperHeroRepository
 {
-    public class DatabaseStartUp : IDatabaseStartUp
+    internal class DatabaseStartUp : IDatabaseStartUp
     {
         private readonly DatabaseConfiguration _databaseConfiguration;
 

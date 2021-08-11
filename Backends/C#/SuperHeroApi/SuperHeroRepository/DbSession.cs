@@ -5,7 +5,7 @@ using System.Data.SQLite;
 
 namespace SuperHeroRepository
 {
-    public sealed class DbSession : IDisposable
+    internal sealed class DbSession : IDisposable
     {
         private Guid _id;
         public IDbConnection Connection { get; }
