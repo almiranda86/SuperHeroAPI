@@ -13,6 +13,7 @@
     <ProjectReference Include="..\SuperHeroCore\SuperHeroCore.csproj" />
     <ProjectReference Include="..\SuperHeroDomain\SuperHeroDomain.csproj" />
     <ProjectReference Include="..\SuperHeroMediator\SuperHeroMediator.csproj" />
+    <ProjectReference Include="..\SuperHeroRepository\SuperHeroRepository.csproj" />
     <ProjectReference Include="..\SuperHeroService\SuperHeroService.csproj" />
   </ItemGroup>
 
