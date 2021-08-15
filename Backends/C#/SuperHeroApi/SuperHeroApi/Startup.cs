@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SuperHeroDomain.Behavior;
 using SuperHeroMediator;
 using SuperHeroRepository;
 using SuperHeroRepository.Behavior;
 using SuperHeroRepository.Database;
 using SuperHeroRepository.Lookup;
 using SuperHeroRepository.Persister;
-using SuperHeroService.CompleteHero;
+using SuperHeroService.Handlers;
 using System;
 using System.Reflection;
 
@@ -32,11 +33,12 @@ namespace SuperHeroApi
             services.AddMediatR(typeof(GetCompleteHeroByIdRequestHandler));
             services.AddControllers();
 
-            services.AddSingleton(new DatabaseConfiguration { Name = Configuration["DatabaseName"] });
+            services.AddSingleton<IDatabaseConfiguration, DatabaseConfiguration>();
+            services.AddTransient<IDbSession, DbSession>();
 
             services.AddSingleton<IDatabaseStartUp, DatabaseStartUp>();
-            services.AddSingleton<IHeroLookup, HeroLookup>();
-            services.AddSingleton<IHeroPersister, HeroPersister>();
+            services.AddTransient<IHeroLookup, HeroLookup>();
+            services.AddTransient<IHeroPersister, HeroPersister>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +62,9 @@ namespace SuperHeroApi
 
             ServiceLocator.SetLocatorProvider(app.ApplicationServices);
 
+            serviceProvider.GetService<IDatabaseConfiguration>().Name = Configuration["DatabaseName"];
             serviceProvider.GetService<IDatabaseStartUp>().Setup();
+            
         }
     }
 }

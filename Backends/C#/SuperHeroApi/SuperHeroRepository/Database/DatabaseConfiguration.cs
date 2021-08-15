@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SuperHeroRepository.Behavior;
 
 namespace SuperHeroRepository.Database
 {
-    public class DatabaseConfiguration
+    public class DatabaseConfiguration : IDatabaseConfiguration
     {
         public string Name { get; set; }
     }

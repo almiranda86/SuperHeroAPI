@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SuperHeroRepository.HeroMaster
+namespace SuperHeroDomain.HeroMaster
 {
     public class Hero
     {

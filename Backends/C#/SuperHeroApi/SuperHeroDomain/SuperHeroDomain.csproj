@@ -7,7 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SuperHeroCore\SuperHeroCore.csproj" />
     <ProjectReference Include="..\SuperHeroMediator\SuperHeroMediator.csproj" />
-    <ProjectReference Include="..\SuperHeroRepository\SuperHeroRepository.csproj" />
   </ItemGroup>
 
 </Project>

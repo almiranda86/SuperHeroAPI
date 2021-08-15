@@ -9,4 +9,8 @@
     <PackageReference Include="System.Data.SQLite" Version="1.0.114.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SuperHeroDomain\SuperHeroDomain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -7,25 +7,23 @@ using System.Linq;
 
 namespace SuperHeroRepository
 {
-    internal class DatabaseStartUp : IDatabaseStartUp
+    public class DatabaseStartUp : IDatabaseStartUp
     {
-        private readonly DatabaseConfiguration _databaseConfiguration;
+        private readonly IDbSession _dbSession;
 
-        public DatabaseStartUp(DatabaseConfiguration databaseConfiguration)
+        public DatabaseStartUp(IDbSession dbSession)
         {
-            _databaseConfiguration = databaseConfiguration;
+            _dbSession = dbSession;
         }
 
         public void Setup()
         {
-            using var connection = new SQLiteConnection(_databaseConfiguration.Name);
-
-            var table = connection.Query<string>("SELECT name FROM sqlite_master WHERE type='table' AND name = 'Hero';");
+            var table = _dbSession.Connection.Query<string>("SELECT name FROM sqlite_master WHERE type='table' AND name = 'Hero';");
             var tableName = table.FirstOrDefault();
-            if (!string.IsNullOrEmpty(tableName) && tableName == "Product")
+            if (!string.IsNullOrEmpty(tableName) && tableName == "Hero")
                 return;
 
-            connection.Execute("Create Table Hero (" +
+            _dbSession.Connection.Execute("Create Table Hero (" +
                 "API_ID INTEGER NOT NULL," +
                 "Name VARCHAR(1000) NULL);");
         }

@@ -1,20 +1,16 @@
 ﻿using Dapper;
+using SuperHeroDomain.Behavior;
+using SuperHeroDomain.HeroMaster;
 using SuperHeroRepository.Behavior;
-using SuperHeroRepository.Database;
-using SuperHeroRepository.HeroMaster;
-using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SuperHeroRepository.Persister
 {
     public class HeroPersister : IHeroPersister
     {
-        private readonly DbSession _session;
+        private readonly IDbSession _session;
 
-        public HeroPersister(DbSession session)
+        public HeroPersister(IDbSession session)
         {
             _session = session;
         }
