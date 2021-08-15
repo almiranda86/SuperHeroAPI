@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Biography\" />
+    <Folder Include="Appearance\" />
+    <Folder Include="CompleteHero\" />
+    <Folder Include="Connections\" />
+    <Folder Include="Image\" />
+    <Folder Include="Name\" />
+    <Folder Include="Work\" />
+    <Folder Include="Powerstats\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SuperHeroDomain\SuperHeroDomain.csproj" />
+    <ProjectReference Include="..\SuperHeroMediator\SuperHeroMediator.csproj" />
+  </ItemGroup>
+
+</Project>
