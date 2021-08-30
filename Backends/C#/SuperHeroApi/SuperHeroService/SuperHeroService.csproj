@@ -5,9 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Biography\" />
+    <Compile Remove="CompleteHero\**" />
+    <EmbeddedResource Remove="CompleteHero\**" />
+    <None Remove="CompleteHero\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Appearance\" />
-    <Folder Include="CompleteHero\" />
+    <Folder Include="Biography\" />
     <Folder Include="Connections\" />
     <Folder Include="Image\" />
     <Folder Include="Name\" />
@@ -18,6 +23,21 @@
   <ItemGroup>
     <ProjectReference Include="..\SuperHeroDomain\SuperHeroDomain.csproj" />
     <ProjectReference Include="..\SuperHeroMediator\SuperHeroMediator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

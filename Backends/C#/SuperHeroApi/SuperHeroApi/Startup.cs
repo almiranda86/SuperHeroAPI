@@ -12,6 +12,8 @@ using SuperHeroRepository.Database;
 using SuperHeroRepository.Lookup;
 using SuperHeroRepository.Persister;
 using SuperHeroService.Handlers;
+using SuperHeroService.Infrastructure;
+using SuperHeroService.Infrastructure.Behavior;
 using System;
 using System.Reflection;
 
@@ -31,6 +33,7 @@ namespace SuperHeroApi
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(GetCompleteHeroByIdRequestHandler));
+            services.AddMediatR(typeof(ListAllHeroesRequestHandler));
             services.AddControllers();
 
             services.AddSingleton<IDatabaseConfiguration, DatabaseConfiguration>();
@@ -39,6 +42,7 @@ namespace SuperHeroApi
             services.AddSingleton<IDatabaseStartUp, DatabaseStartUp>();
             services.AddTransient<IHeroLookup, HeroLookup>();
             services.AddTransient<IHeroPersister, HeroPersister>();
+            services.AddSingleton<IDatabaseSetupService, DatabaseSetupService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,7 +68,8 @@ namespace SuperHeroApi
 
             serviceProvider.GetService<IDatabaseConfiguration>().Name = Configuration["DatabaseName"];
             serviceProvider.GetService<IDatabaseStartUp>().Setup();
-            
+            serviceProvider.GetService<IDatabaseSetupService>().FillDatabase();
+
         }
     }
 }

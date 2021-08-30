@@ -17,7 +17,13 @@ namespace SuperHeroRepository.Persister
 
         public async Task Create(Hero hero)
         {
-            await _session.Connection.ExecuteAsync("INSERT INTO Hero (API_ID, Name) VALUES (@API_ID, @Name);", hero, _session.Transaction);
+            await _session.Connection.ExecuteAsync(@"INSERT INTO Hero (PUBLIC_ID, 
+                                                                       API_ID, 
+                                                                       NAME) 
+                                                     VALUES (@PUBLIC_ID,
+                                                             @API_ID, 
+                                                             @NAME);", 
+                                                             hero, _session.Transaction);
         }
     }
 }
