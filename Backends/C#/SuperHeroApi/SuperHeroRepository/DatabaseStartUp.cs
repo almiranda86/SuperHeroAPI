@@ -23,9 +23,11 @@ namespace SuperHeroRepository
             if (!string.IsNullOrEmpty(tableName) && tableName == "Hero")
                 return;
 
-            _dbSession.Connection.Execute("Create Table Hero (" +
-                "API_ID INTEGER NOT NULL," +
-                "Name VARCHAR(1000) NULL);");
+            _dbSession.Connection.Execute(@"Create Table Hero (ID INTEGER IDENTITY(1,1) PRIMARY KEY,
+                                                               PUBLIC_ID VARCHAR(75) NOT NULL,
+                                                               API_ID INTEGER NOT NULL,
+                                                               NAME VARCHAR(1000) NULL);");
         }
     }
 }
+    

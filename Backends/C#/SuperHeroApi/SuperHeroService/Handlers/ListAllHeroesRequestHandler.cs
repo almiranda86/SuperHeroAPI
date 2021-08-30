@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace SuperHeroService.Handlers
 {
-    public class GetCompleteHeroByIdRequestHandler : IRequestHandler<GetCompleteHeroByIdRequest, GetCompleteHeroByIdResult>
+    public class ListAllHeroesRequestHandler : IRequestHandler<ListAllHeroesRequest, ListAllHeroesResponse>
     {
         private readonly IHeroLookup _heroLookup;
-        public GetCompleteHeroByIdRequestHandler(IHeroLookup heroLookup)
+        public ListAllHeroesRequestHandler(IHeroLookup heroLookup)
         {
             _heroLookup = heroLookup;
         }
 
-        public Task<GetCompleteHeroByIdResult> Handle(GetCompleteHeroByIdRequest request, CancellationToken cancellationToken)
+        public Task<ListAllHeroesResponse> Handle(ListAllHeroesRequest request, CancellationToken cancellationToken)
         {
            
 

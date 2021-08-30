@@ -7,5 +7,7 @@ namespace SuperHeroDomain.Behavior
     public interface IHeroLookup
     {
         Task<IEnumerable<Hero>> GetAll();
+
+        Task<int> GetCountHeroes();
     }
 }
