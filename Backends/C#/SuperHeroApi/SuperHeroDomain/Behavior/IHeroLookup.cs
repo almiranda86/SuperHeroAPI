@@ -6,8 +6,8 @@ namespace SuperHeroDomain.Behavior
 {
     public interface IHeroLookup
     {
-        Task<IEnumerable<Hero>> GetAll();
-
+        Task<List<Hero>> GetAll();
         Task<int> GetCountHeroes();
+        Task<Hero> GetHeroByPublicId(string publicHeroId);
     }
 }

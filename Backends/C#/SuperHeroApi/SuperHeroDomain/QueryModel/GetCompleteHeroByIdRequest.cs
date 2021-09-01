@@ -7,6 +7,6 @@ namespace SuperHeroDomain.QueryModel
 {
     public class GetCompleteHeroByIdRequest : IRequest<GetCompleteHeroByIdResult>
     {
-        public string HeroId { get; set; }
+        public string PublicHeroId { get; set; }
     }
 }

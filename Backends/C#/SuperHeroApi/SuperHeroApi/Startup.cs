@@ -1,14 +1,19 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SuperHeroCore.Infrastructure;
+using SuperHeroCore.Infrastructure.Behavior;
 using SuperHeroDomain.Behavior;
+using SuperHeroDomain.Mapper.Configuration;
 using SuperHeroMediator;
 using SuperHeroRepository;
 using SuperHeroRepository.Behavior;
 using SuperHeroRepository.Database;
+using SuperHeroRepository.Infrastructure;
 using SuperHeroRepository.Lookup;
 using SuperHeroRepository.Persister;
 using SuperHeroService.Handlers;
@@ -32,7 +37,7 @@ namespace SuperHeroApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddMediatR(typeof(GetCompleteHeroByIdRequestHandler));
+            services.AddMediatR(typeof(GetCompleteHeroByPublicIdRequestHandler));
             services.AddMediatR(typeof(ListAllHeroesRequestHandler));
             services.AddControllers();
 
@@ -43,6 +48,14 @@ namespace SuperHeroApi
             services.AddTransient<IHeroLookup, HeroLookup>();
             services.AddTransient<IHeroPersister, HeroPersister>();
             services.AddSingleton<IDatabaseSetupService, DatabaseSetupService>();
+            services.AddTransient<IExternalApiLookup, ExternalApiLookup>();
+
+            services.AddTransient<IRest, Rest>();
+            services.AddTransient<IApiConfiguration, ApiConfiguration>();
+
+            var mapperConfig = AutoMapperConfiguration.Register();
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

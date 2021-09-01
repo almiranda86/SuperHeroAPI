@@ -23,7 +23,7 @@ namespace SuperHeroApi.Controllers
 
             GetCompleteHeroByIdRequest request = new GetCompleteHeroByIdRequest()
             {
-                HeroId = heroId
+                PublicHeroId = heroId
             };
 
             return this.HandleQueryRequest<GetCompleteHeroByIdRequest, GetCompleteHeroByIdResult>(request, cancellationToken);

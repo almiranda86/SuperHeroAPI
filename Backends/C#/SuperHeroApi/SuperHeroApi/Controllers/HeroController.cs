@@ -13,7 +13,7 @@ namespace SuperHeroApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SimpleHeroController : ControllerBase
+    public class HeroController : ControllerBase
     {
         [HttpGet()]
         [AllowAnonymous]

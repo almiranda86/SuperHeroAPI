@@ -15,12 +15,14 @@ namespace SuperHeroService.Handlers
             _heroLookup = heroLookup;
         }
 
-        public Task<ListAllHeroesResponse> Handle(ListAllHeroesRequest request, CancellationToken cancellationToken)
+        public async Task<ListAllHeroesResponse> Handle(ListAllHeroesRequest request, CancellationToken cancellationToken)
         {
-           
+            var response = await _heroLookup.GetAll();
 
+            ListAllHeroesResponse listAllHeroesResponse = new ListAllHeroesResponse();
+            listAllHeroesResponse.Heroes = response;
 
-            throw new NotImplementedException();
+            return listAllHeroesResponse;
         }
     }
 }
