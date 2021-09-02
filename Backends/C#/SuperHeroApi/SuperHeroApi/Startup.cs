@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using SuperHeroCore.Infrastructure;
 using SuperHeroCore.Infrastructure.Behavior;
 using SuperHeroDomain.Behavior;
@@ -56,6 +57,16 @@ namespace SuperHeroApi
             var mapperConfig = AutoMapperConfiguration.Register();
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "Super Hero API",
+                        Version = "v1",
+                        Description = "An API with information of ALL Suepr Heroes!"
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +94,11 @@ namespace SuperHeroApi
             serviceProvider.GetService<IDatabaseStartUp>().Setup();
             serviceProvider.GetService<IDatabaseSetupService>().FillDatabase();
 
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Super Hero API");
+            });
         }
     }
 }
