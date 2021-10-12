@@ -26,6 +26,27 @@ namespace SuperHeroRepository.Lookup
             return result.ToList();
         }
 
+        public async Task<List<Hero>> GetAllHeroesPaginated(int? initPage, int? endPage)
+        {
+            IEnumerable<Hero> result;
+
+            try
+            {
+                result = await _session.Connection.QueryAsync<Hero>(LookupSQLQueries.GetAllHeroesPaginated(),
+                                                                    new
+                                                                    {
+                                                                        PARAM_FIRST_ROW = initPage,
+                                                                        PARAM_LAST_ROW = endPage
+                                                                    });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+
+            return result.ToList();
+        }
+
         public async Task<int> GetCountHeroes()
         {
             var result = await _session.Connection.QuerySingleAsync<int>(LookupSQLQueries.GetCountHeroes());

@@ -16,7 +16,6 @@ using SuperHeroRepository.Behavior;
 using SuperHeroRepository.Database;
 using SuperHeroRepository.Infrastructure;
 using SuperHeroRepository.Lookup;
-using SuperHeroRepository.Persister;
 using SuperHeroService.Handlers;
 using System;
 using System.Reflection;
@@ -38,6 +37,7 @@ namespace SuperHeroApi
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(GetCompleteHeroByPublicIdRequestHandler));
             services.AddMediatR(typeof(ListAllHeroesRequestHandler));
+            services.AddMediatR(typeof(ListAllHeroesPaginatedRequestHandler));
             services.AddControllers();
 
             services.AddSingleton<IDatabaseConfiguration, DatabaseConfiguration>();
