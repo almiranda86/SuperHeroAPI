@@ -2,6 +2,8 @@
 using SuperHeroDomain.Behavior;
 using SuperHeroDomain.HeroMaster;
 using SuperHeroRepository.Behavior;
+using SuperHeroRepository.Lookup.SQL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,21 +21,30 @@ namespace SuperHeroRepository.Lookup
 
         public async Task<List<Hero>> GetAll()
         {
-            var result = await _session.Connection.QueryAsync<Hero>(@"SELECT PUBLIC_ID, NAME FROM Hero;", _session.Transaction);
+            var result = await _session.Connection.QueryAsync<Hero>(LookupSQLQueries.GetAll());
 
             return result.ToList();
         }
 
         public async Task<int> GetCountHeroes()
         {
-            var result = await _session.Connection.QuerySingleAsync<int>(@"SELECT COUNT(PUBLIC_ID) FROM Hero;", _session.Transaction);
+            var result = await _session.Connection.QuerySingleAsync<int>(LookupSQLQueries.GetCountHeroes());
 
             return result;
         }
 
         public async Task<Hero> GetHeroByPublicId(string publicHeroId)
         {
-            var result = await _session.Connection.QueryAsync<Hero>(@"SELECT PUBLIC_ID, NAME, API_ID FROM Hero WHERE PUBLIC_ID = @PUBLIC_ID;", new { PUBLIC_ID = publicHeroId }, _session.Transaction);
+            IEnumerable<Hero> result;
+
+            try
+            {
+                result = await _session.Connection.QueryAsync<Hero>(LookupSQLQueries.GetHeroByPublicId(), new { PUBLIC_ID = publicHeroId });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
 
             return result.FirstOrDefault();
         }

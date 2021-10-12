@@ -1,7 +1,9 @@
-﻿using SuperHeroRepository.Behavior;
+﻿using Npgsql;
+using SuperHeroRepository.Behavior;
 using SuperHeroRepository.Database;
 using System;
 using System.Data;
+using System.Data.SqlClient;
 using System.Data.SQLite;
 
 namespace SuperHeroRepository
@@ -21,7 +23,8 @@ namespace SuperHeroRepository
         {
             DatabaseConfiguration = databaseConfiguration;
             _id = Guid.NewGuid();
-            Connection = new SQLiteConnection(DatabaseConfiguration.Name);
+            //Connection = new SqlConnection($"Server={DatabaseConfiguration.DatabaseServer};Database={DatabaseConfiguration.DatabaseName};User Id={DatabaseConfiguration.DatabaseUserId};Password={DatabaseConfiguration.DatabasePassword};");
+            Connection = new NpgsqlConnection($"User ID={DatabaseConfiguration.DatabaseUserId};Password={DatabaseConfiguration.DatabasePassword};Host={DatabaseConfiguration.DatabaseHost};Port={DatabaseConfiguration.DatabasePort};Database={DatabaseConfiguration.DatabaseName};");
             Connection.Open();
         }
     }
