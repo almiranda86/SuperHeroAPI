@@ -18,7 +18,7 @@ namespace SuperHeroRepository.Lookup.SQL
 
         public static string GetHeroByPublicId()
         {
-            return @"SELECT id, public_id, api_id, name FROM Hero WHERE PUBLIC_ID = @PUBLIC_ID;";
+            return @"SELECT id, public_id, api_id, name FROM Hero WHERE PUBLIC_ID::text = @PUBLIC_ID;";
         }
 
         public static string GetAllHeroesPaginated()

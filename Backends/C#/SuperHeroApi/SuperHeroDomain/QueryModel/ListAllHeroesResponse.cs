@@ -1,9 +1,6 @@
 ﻿using SuperHeroCore;
-using SuperHeroDomain.BaseModel;
-using SuperHeroDomain.HeroMaster;
-using System;
+using SuperHeroDomain.Model.HeroMaster;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SuperHeroDomain.QueryModel
 {

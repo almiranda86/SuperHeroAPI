@@ -1,7 +1,11 @@
-﻿using Dapper;
+﻿using AutoMapper;
+using Dapper;
 using SuperHeroDomain.Behavior;
-using SuperHeroDomain.HeroMaster;
+using SuperHeroDomain.DapperModel;
+using SuperHeroDomain.Infrastructure.Query;
+using SuperHeroDomain.Model.HeroMaster;
 using SuperHeroRepository.Behavior;
+using SuperHeroRepository.Infrastructure.Helpers;
 using SuperHeroRepository.Lookup.SQL;
 using System;
 using System.Collections.Generic;
@@ -13,10 +17,12 @@ namespace SuperHeroRepository.Lookup
     public class HeroLookup : IHeroLookup
     {
         private readonly IDbSession _session;
+        private readonly IMapper _mapper;
 
-        public HeroLookup(IDbSession session)
+        public HeroLookup(IDbSession session, IMapper mapper)
         {
             _session = session;
+            _mapper = mapper;
         }
 
         public async Task<List<Hero>> GetAll()
@@ -26,25 +32,40 @@ namespace SuperHeroRepository.Lookup
             return result.ToList();
         }
 
-        public async Task<List<Hero>> GetAllHeroesPaginated(int? initPage, int? endPage)
+        public async Task<QueryPagedResponse<Hero>> GetAllHeroesPaginated(IPagedRequest context)
         {
-            IEnumerable<Hero> result;
+            IEnumerable<QueryHero> result;
+
+            (int? firstRow, int? lastRow) = DbPaginationHelper.GetPageIndexes(context.Page, context.PageSize);
+
+            int totalItems;
 
             try
             {
-                result = await _session.Connection.QueryAsync<Hero>(LookupSQLQueries.GetAllHeroesPaginated(),
+                result = await _session.Connection.QueryAsync<QueryHero>(LookupSQLQueries.GetAllHeroesPaginated(),
                                                                     new
                                                                     {
-                                                                        PARAM_FIRST_ROW = initPage,
-                                                                        PARAM_LAST_ROW = endPage
+                                                                        PARAM_FIRST_ROW = firstRow.Value,
+                                                                        PARAM_LAST_ROW = lastRow.Value
                                                                     });
+
+                totalItems = result.First().TOTAL_ROWS;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex.InnerException);
             }
 
-            return result.ToList();
+
+            QueryPagedResponse<Hero> response = new QueryPagedResponse<Hero>
+            {
+                Items = _mapper.Map<List<Hero>>(result),
+                CurrentPage = (context.Page ?? 0),
+                PageSize = context.PageSize ?? Constants.DEFAULT_PAGE_SIZE,
+                TotalItems = totalItems
+            };
+
+            return response;
         }
 
         public async Task<int> GetCountHeroes()

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace SuperHeroDomain.HeroMaster
+namespace SuperHeroDomain.Model.HeroMaster
 {
     public class Hero
     {

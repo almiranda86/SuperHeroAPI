@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SuperHeroDomain.Behavior;
+using SuperHeroDomain.Infrastructure.Extensions;
 using SuperHeroDomain.QueryModel;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,14 @@ namespace SuperHeroService.Handlers
 
         public async Task<ListAllHeroesPaginatedResponse> Handle(ListAllHeroesPaginatedRequest request, CancellationToken cancellationToken)
         {
-            var response = await _heroLookup.GetAllHeroesPaginated(request.Page, request.PageSize);
+            var response = new ListAllHeroesPaginatedResponse();
 
-            ListAllHeroesPaginatedResponse listAllHeroesResponse = new ListAllHeroesPaginatedResponse();
-            listAllHeroesResponse.Heroes = response;
+            var pagedResponse = await _heroLookup.GetAllHeroesPaginated(request);
 
-            return listAllHeroesResponse;
+            response = pagedResponse.FromIPagedResponse<ListAllHeroesPaginatedResponse>();
+            response.Heroes = pagedResponse.Items;
+
+            return response;
         }
     }
 }
