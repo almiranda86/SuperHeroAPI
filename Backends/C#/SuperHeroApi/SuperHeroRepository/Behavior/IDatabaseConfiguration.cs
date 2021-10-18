@@ -2,6 +2,12 @@
 {
     public interface IDatabaseConfiguration
     {
-        string Name { get; set; }
+        string DatabaseName { get; set; }
+        string DatabaseServer { get; set; }
+        string DatabaseUserId { get; set; }
+        string DatabasePassword { get; set; }
+        string DatabaseHost { get; set; }
+        string DatabasePort { get; set; }
+
     }
 }

@@ -12,7 +12,8 @@ namespace SuperHeroDomain.Mapper.Configuration
         {
             return new MapperConfiguration(configuration =>
             {
-                configuration.AddProfile(new ApiResponseModelToCompleteHero());
+                configuration.AddProfile<ApiResponseModelToCompleteHero>();
+                configuration.AddProfile<QueryHeroToHeroMapper>();
             });
         }
     }

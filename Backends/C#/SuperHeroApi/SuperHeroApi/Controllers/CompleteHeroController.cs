@@ -16,14 +16,14 @@ namespace SuperHeroApi.Controllers
     public class CompleteHeroController : ControllerBase
     {
 
-        [HttpGet("{heroId}")]
+        [HttpGet("{hero_publicId}")]
         [AllowAnonymous]
-        public  Task<IActionResult> GetCompleteHero([FromRoute] string heroId, CancellationToken cancellationToken = default)
+        public  Task<IActionResult> GetCompleteHero([FromRoute] string hero_publicId, CancellationToken cancellationToken = default)
         {
 
             GetCompleteHeroByIdRequest request = new GetCompleteHeroByIdRequest()
             {
-                PublicHeroId = heroId
+                PublicHeroId = hero_publicId
             };
 
             return this.HandleQueryRequest<GetCompleteHeroByIdRequest, GetCompleteHeroByIdResult>(request, cancellationToken);

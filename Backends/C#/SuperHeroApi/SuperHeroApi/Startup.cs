@@ -16,10 +16,7 @@ using SuperHeroRepository.Behavior;
 using SuperHeroRepository.Database;
 using SuperHeroRepository.Infrastructure;
 using SuperHeroRepository.Lookup;
-using SuperHeroRepository.Persister;
 using SuperHeroService.Handlers;
-using SuperHeroService.Infrastructure;
-using SuperHeroService.Infrastructure.Behavior;
 using System;
 using System.Reflection;
 
@@ -40,15 +37,13 @@ namespace SuperHeroApi
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(GetCompleteHeroByPublicIdRequestHandler));
             services.AddMediatR(typeof(ListAllHeroesRequestHandler));
+            services.AddMediatR(typeof(ListAllHeroesPaginatedRequestHandler));
             services.AddControllers();
 
             services.AddSingleton<IDatabaseConfiguration, DatabaseConfiguration>();
             services.AddTransient<IDbSession, DbSession>();
 
-            services.AddSingleton<IDatabaseStartUp, DatabaseStartUp>();
             services.AddTransient<IHeroLookup, HeroLookup>();
-            services.AddTransient<IHeroPersister, HeroPersister>();
-            services.AddSingleton<IDatabaseSetupService, DatabaseSetupService>();
             services.AddTransient<IExternalApiLookup, ExternalApiLookup>();
 
             services.AddTransient<IRest, Rest>();
@@ -90,10 +85,12 @@ namespace SuperHeroApi
 
             ServiceLocator.SetLocatorProvider(app.ApplicationServices);
 
-            serviceProvider.GetService<IDatabaseConfiguration>().Name = Configuration["DatabaseName"];
-            serviceProvider.GetService<IDatabaseStartUp>().Setup();
-            serviceProvider.GetService<IDatabaseSetupService>().FillDatabase();
-
+            serviceProvider.GetService<IDatabaseConfiguration>().DatabaseName = Configuration["DatabaseName"];
+            serviceProvider.GetService<IDatabaseConfiguration>().DatabaseServer = Configuration["DatabaseServer"];
+            serviceProvider.GetService<IDatabaseConfiguration>().DatabaseUserId = Configuration["DatabaseUserId"];
+            serviceProvider.GetService<IDatabaseConfiguration>().DatabasePassword = Configuration["DatabasePassword"];
+            serviceProvider.GetService<IDatabaseConfiguration>().DatabaseHost = Configuration["DatabaseHost"];
+            serviceProvider.GetService<IDatabaseConfiguration>().DatabasePort = Configuration["DatabasePort"];
 
             app.UseSwagger();
             app.UseSwaggerUI(c => {

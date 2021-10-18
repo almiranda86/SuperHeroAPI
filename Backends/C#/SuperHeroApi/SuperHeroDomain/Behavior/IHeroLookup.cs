@@ -1,4 +1,5 @@
-﻿using SuperHeroDomain.HeroMaster;
+﻿using SuperHeroDomain.Infrastructure.Query;
+using SuperHeroDomain.Model.HeroMaster;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,5 +10,6 @@ namespace SuperHeroDomain.Behavior
         Task<List<Hero>> GetAll();
         Task<int> GetCountHeroes();
         Task<Hero> GetHeroByPublicId(string publicHeroId);
+        Task<QueryPagedResponse<Hero>> GetAllHeroesPaginated(IPagedRequest context);
     }
 }
