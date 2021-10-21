@@ -7,6 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using SuperHeroCore.Logs.Constants;
+using SuperHeroCore.Logs.Model;
 
 namespace SuperHeroService.Handlers
 {
@@ -14,7 +15,7 @@ namespace SuperHeroService.Handlers
     {
         private readonly IHeroLookup _heroLookup;
         private readonly ILogManager _logManager;
-
+        ProcessLog _processLog;
 
         public ListAllHeroesPaginatedRequestHandler(IHeroLookup heroLookup, ILogManager logManager)
         {
@@ -28,10 +29,35 @@ namespace SuperHeroService.Handlers
 
             var response = new ListAllHeroesPaginatedResponse();
 
-            var pagedResponse = await _heroLookup.GetAllHeroesPaginated(request);
+            try
+            {
+                _processLog = new ProcessLog()
+                {
+                    FunctionName = typeof(ListAllHeroesPaginatedRequestHandler).FullName,
+                    MethodName = nameof(Handle),
+                    Payload = request
+                };
 
-            response = pagedResponse.FromIPagedResponse<ListAllHeroesPaginatedResponse>();
-            response.Heroes = pagedResponse.Items;
+                var pagedResponse = await _heroLookup.GetAllHeroesPaginated(request);
+
+                response = pagedResponse.FromIPagedResponse<ListAllHeroesPaginatedResponse>();
+                response.Heroes = pagedResponse.Items;
+
+                _processLog.Success = true;
+                _processLog.Response = pagedResponse;
+                _processLog.ProcessingStatus = ProccessStatus.ProccessOk;
+
+            }
+            catch (Exception ex)
+            {
+                _processLog.Success = false;
+                _processLog.Exception = ex;
+                _processLog.ProcessingStatus = ProccessStatus.ProccessNotOk;
+            }
+            finally
+            {
+                _logManager.AddProcessLog(_processLog);
+            }
 
             _logManager.AddTrace(LogTexts.EndingExecution(nameof(ListAllHeroesPaginatedRequestHandler), DateTime.Now));
 

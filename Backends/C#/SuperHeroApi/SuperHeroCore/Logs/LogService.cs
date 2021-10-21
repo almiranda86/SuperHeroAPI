@@ -71,5 +71,15 @@ namespace SuperHeroCore.Logs
                 _logger.Log(logLevel: (LogLevel)logEventLevel, message: message, args: content, exception: exception);
             }
         }
+
+        public void WriteProcessLog(IProcessLog processLog)
+        {
+            using (LogContext.PushProperty("InformationData", JsonConvert.SerializeObject(processLog)))
+            {
+                var content = JsonConvert.SerializeObject(processLog);
+
+                _logger.LogInformation(message: content);
+            }
+        }
     }
 }

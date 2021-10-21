@@ -12,5 +12,6 @@ namespace SuperHeroCore.Logs.Behavior
         void LogInfo(string message, object data = null);
         void LogWarning(string message, Exception exception = null, object data = null);
         void LogError(string message, Exception exception = null, object data = null);
+        void WriteProcessLog(IProcessLog processLog);
     }
 }

@@ -40,7 +40,6 @@ namespace SuperHeroCore.Logs
             LogServiceWrite(ILoggingLevel.Warning, message, informationData, issue, ex);
         }
 
-
         private void LogServiceWrite(ILoggingLevel loggingLevel, string message, object informationData = null, Issues issue = Issues.None, Exception ex = null)
         {
             try
@@ -65,6 +64,12 @@ namespace SuperHeroCore.Logs
                     InformationData = informationData
                 }, _issuer.Prefix);
             }
+        }
+
+        public void AddProcessLog(ProcessLog processLog)
+        {
+            processLog.Service = _issuer.Prefix;
+            _logService.WriteProcessLog(processLog);
         }
     }
 }
