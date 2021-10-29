@@ -1,0 +1,19 @@
+version: '2.0'
+services:
+  SEQ:
+    container_name: SEQ_container
+    image: datalust/seq:latest
+    volumes:
+        - /path/to/seq/data:/data
+    environment:
+        ACCEPT_EULA: 'Y'
+    ports:
+        - 5341:5341
+        - 80:80
+    networks:
+        - SFN-net
+    restart: always
+
+networks:
+  SFN-net:
+    driver: bridge
