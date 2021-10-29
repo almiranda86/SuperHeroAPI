@@ -8,6 +8,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SuperHeroCore.Infrastructure;
 using SuperHeroCore.Infrastructure.Behavior;
+using SuperHeroCore.Issuer;
+using SuperHeroCore.Issuer.Behavior;
+using SuperHeroCore.Logs;
+using SuperHeroCore.Logs.Behavior;
 using SuperHeroDomain.Behavior;
 using SuperHeroDomain.Mapper.Configuration;
 using SuperHeroMediator;
@@ -34,6 +38,8 @@ namespace SuperHeroApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Console.WriteLine("ConfigureServices");
+
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(GetCompleteHeroByPublicIdRequestHandler));
             services.AddMediatR(typeof(ListAllHeroesRequestHandler));
@@ -48,6 +54,11 @@ namespace SuperHeroApi
 
             services.AddTransient<IRest, Rest>();
             services.AddTransient<IApiConfiguration, ApiConfiguration>();
+
+            services.AddSingleton<IIssuer, Issuer>();
+            services.AddTransient<ILogManager, LogManager>();
+            services.AddSingleton<ILogService, LogService>();
+
 
             var mapperConfig = AutoMapperConfiguration.Register();
             IMapper mapper = mapperConfig.CreateMapper();
@@ -67,6 +78,8 @@ namespace SuperHeroApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
+            Console.WriteLine("Configure");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

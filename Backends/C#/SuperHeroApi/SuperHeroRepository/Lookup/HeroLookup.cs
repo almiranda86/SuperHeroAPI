@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using Dapper;
+using SuperHeroCore.Enums;
+using SuperHeroCore.Logs.Behavior;
+using SuperHeroCore.Logs.Constants;
 using SuperHeroDomain.Behavior;
 using SuperHeroDomain.DapperModel;
 using SuperHeroDomain.Infrastructure.Query;
@@ -18,11 +21,13 @@ namespace SuperHeroRepository.Lookup
     {
         private readonly IDbSession _session;
         private readonly IMapper _mapper;
+        private readonly ILogManager _logManager;
 
-        public HeroLookup(IDbSession session, IMapper mapper)
+        public HeroLookup(IDbSession session, IMapper mapper, ILogManager logManager)
         {
             _session = session;
             _mapper = mapper;
+            _logManager = logManager;
         }
 
         public async Task<List<Hero>> GetAll()
@@ -40,6 +45,8 @@ namespace SuperHeroRepository.Lookup
 
             int totalItems;
 
+            _logManager.AddTrace(LogTexts.ListaAllHeroesPaginatedExecution(nameof(GetAllHeroesPaginated), DateTime.Now, firstRow.Value, lastRow.Value));
+
             try
             {
                 result = await _session.Connection.QueryAsync<QueryHero>(LookupSQLQueries.GetAllHeroesPaginated(),
@@ -53,7 +60,9 @@ namespace SuperHeroRepository.Lookup
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex.InnerException);
+                _logManager.AddError(Issues.LookupErrorGetAllHeroesPaginated_0002, ex.Message, ex, ex.InnerException);
+
+                throw ex;
             }
 
 
@@ -64,6 +73,9 @@ namespace SuperHeroRepository.Lookup
                 PageSize = context.PageSize ?? Constants.DEFAULT_PAGE_SIZE,
                 TotalItems = totalItems
             };
+
+            _logManager.AddTrace(LogTexts.ListaAllHeroesPaginatedComplete(nameof(GetAllHeroesPaginated), DateTime.Now, response.TotalItems));
+
 
             return response;
         }

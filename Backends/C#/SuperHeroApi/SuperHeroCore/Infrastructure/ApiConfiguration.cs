@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using SuperHeroCore.Infrastructure.Behavior;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SuperHeroCore.Infrastructure
 {
