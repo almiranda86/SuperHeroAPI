@@ -6,6 +6,7 @@ using SuperHeroCore.Logs.Constants;
 using SuperHeroDomain.Behavior;
 using SuperHeroDomain.DapperModel;
 using SuperHeroDomain.Infrastructure.Query;
+using SuperHeroDomain.Model;
 using SuperHeroDomain.Model.HeroMaster;
 using SuperHeroRepository.Behavior;
 using SuperHeroRepository.Infrastructure.Helpers;
@@ -94,6 +95,22 @@ namespace SuperHeroRepository.Lookup
             try
             {
                 result = await _session.Connection.QueryAsync<Hero>(LookupSQLQueries.GetHeroByPublicId(), new { PUBLIC_ID = publicHeroId });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+
+            return result.FirstOrDefault();
+        }
+
+        public async Task<FullHero> GetCompleteHero(string publicHeroId)
+        {
+            IEnumerable<FullHero> result;
+
+            try
+            {
+                result = await _session.Connection.QueryAsync<FullHero>(LookupSQLQueries.GetCompleteHeroByPublicId(), new { PUBLIC_ID = publicHeroId });
             }
             catch (Exception ex)
             {

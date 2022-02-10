@@ -1,6 +1,10 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Configuration;
+using SuperHeroCore.Extension;
+using SuperHeroCore.Logs.Behavior;
+using SuperHeroCore.Logs.Constants;
 using SuperHeroDomain.Behavior;
+using SuperHeroDomain.CustomModel;
 using SuperHeroDomain.QueryModel;
 using System;
 using System.Threading;
@@ -11,13 +15,12 @@ namespace SuperHeroService.Handlers
     public class GetCompleteHeroByPublicIdRequestHandler : IRequestHandler<GetCompleteHeroByIdRequest, GetCompleteHeroByIdResult>
     {
         private readonly IHeroLookup _heroLookup;
-        private readonly IExternalApiLookup _externalApiLookup;
+        private readonly ILogManager _logManager;
         public GetCompleteHeroByPublicIdRequestHandler(IHeroLookup heroLookup,
-                                                       IExternalApiLookup externalApiLookup,
-                                                       IConfiguration configuration)
+                                                       ILogManager logManager)
         {
             _heroLookup = heroLookup;
-            _externalApiLookup = externalApiLookup;
+            _logManager = logManager;
         }
 
         public async Task<GetCompleteHeroByIdResult> Handle(GetCompleteHeroByIdRequest request, CancellationToken cancellationToken)
@@ -26,17 +29,14 @@ namespace SuperHeroService.Handlers
 
             try
             {
-                var responseHero = await _heroLookup.GetHeroByPublicId(request.PublicHeroId);
+                var responseHero = await _heroLookup.GetCompleteHero(request.PublicHeroId);
 
-                var responseCompleteHero = await _externalApiLookup.GetCompleteHeroById(responseHero.API_ID);
-
-                responseCompleteHero.Id = request.PublicHeroId;
-
-                result.completeHero = responseCompleteHero;
+                result.completeHero = responseHero.HERO.FromJson<CompleteHero>();
             }
             catch (Exception ex)
             {
-
+                _logManager.AddError(SuperHeroCore.Enums.Issues.GetCompleteHeroByPublicIdRequestHandler_0001,
+                                    LogTexts.ErrorWhenGettingCompleteHero(nameof(GetCompleteHeroByPublicIdRequestHandler.Handle), DateTime.Now, request.PublicHeroId, ex.Message));
             }
 
             return result;

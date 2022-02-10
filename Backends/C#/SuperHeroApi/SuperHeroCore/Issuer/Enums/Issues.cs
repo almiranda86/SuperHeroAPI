@@ -13,6 +13,10 @@ namespace SuperHeroCore.Enums
         ServiceError2001,
         SuccessInfo200,
 
-        LookupErrorGetAllHeroesPaginated_0002
+        GetCompleteHeroByPublicIdRequestHandler_0001,
+
+        LookupErrorGetAllHeroesPaginated_0002,
+        HeroPersisterError_0001
+
     }
 }

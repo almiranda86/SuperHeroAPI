@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SuperHeroDomain.BaseModel;
 using SuperHeroDomain.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SuperHeroDomain.CustomModel
 {

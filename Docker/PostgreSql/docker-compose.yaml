@@ -28,11 +28,14 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
       # copy the sql script to create tables
       - ./scripts/create_database.sql:/docker-entrypoint-initdb.d/10-create_database.sql
-      - ./scripts/create_table_hero.sql:/docker-entrypoint-initdb.d/20-create_table_hero.sql
-      - ./scripts/insert_hero_table.sql:/docker-entrypoint-initdb.d/30-insert_hero_table.sql
+      - ./scripts/create_table_hero.sql:/docker-entrypoint-initdb.d/20-create_table_complete_hero.sql
+      - ./scripts/insert_hero_table.sql:/docker-entrypoint-initdb.d/30-insert_complete_hero_table.sql
     networks:
       - postgres-network
    
 networks: 
   postgres-network:
     driver: bridge
+    
+    
+##https://renatogroffe.medium.com/postgresql-pgadmin-4-docker-compose-montando-rapidamente-um-ambiente-para-uso-55a2ab230b89    

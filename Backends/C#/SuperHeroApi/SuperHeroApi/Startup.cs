@@ -20,6 +20,7 @@ using SuperHeroRepository.Behavior;
 using SuperHeroRepository.Database;
 using SuperHeroRepository.Infrastructure;
 using SuperHeroRepository.Lookup;
+using SuperHeroRepository.Persister;
 using SuperHeroService.Handlers;
 using System;
 using System.Reflection;
@@ -44,6 +45,7 @@ namespace SuperHeroApi
             services.AddMediatR(typeof(GetCompleteHeroByPublicIdRequestHandler));
             services.AddMediatR(typeof(ListAllHeroesRequestHandler));
             services.AddMediatR(typeof(ListAllHeroesPaginatedRequestHandler));
+            services.AddMediatR(typeof(CreateAllHeroesRequestHandler));
             services.AddControllers();
 
             services.AddSingleton<IDatabaseConfiguration, DatabaseConfiguration>();
@@ -51,6 +53,7 @@ namespace SuperHeroApi
 
             services.AddTransient<IHeroLookup, HeroLookup>();
             services.AddTransient<IExternalApiLookup, ExternalApiLookup>();
+            services.AddTransient<IHeroPersister, HeroPersister>();
 
             services.AddTransient<IRest, Rest>();
             services.AddTransient<IApiConfiguration, ApiConfiguration>();

@@ -38,5 +38,10 @@ namespace SuperHeroRepository.Lookup.SQL
                      WHERE(@PARAM_FIRST_ROW is null OR @PARAM_FIRST_ROW <= CA.LINE_NUMBER)
                        AND(@PARAM_LAST_ROW is null	OR @PARAM_LAST_ROW >= CA.LINE_NUMBER);";
         }
+
+        public static string GetCompleteHeroByPublicId()
+        {
+            return @"SELECT ""PUBLIC_ID"", ""HERO"" FROM Complete_Hero WHERE ""PUBLIC_ID""::text = @PUBLIC_ID;";
+        }
     }
 }

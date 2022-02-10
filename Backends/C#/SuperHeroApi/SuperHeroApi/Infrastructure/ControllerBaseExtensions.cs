@@ -28,7 +28,7 @@ namespace SuperHeroApi.Infrastructure
 
             if (response != null)
             {
-                if (string.IsNullOrEmpty(response.Status))
+                if (response.Status == null)
                     response.SetOk();
 
                 response.StatusDescription = response.StatusDescription ?? $"Response of {typeof(TResponse).Name}";

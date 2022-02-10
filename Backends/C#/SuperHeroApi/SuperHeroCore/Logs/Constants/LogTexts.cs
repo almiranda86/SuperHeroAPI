@@ -27,5 +27,15 @@ namespace SuperHeroCore.Logs.Constants
         {
             return $"{feature} executed - Total heroes founded {heroes} at {executionDate} ";
         }
+
+        public static string ErrorWhenCreatingHero(string feature, DateTime executionDate, string ex)
+        {
+            return $"Error while executin {feature} at {executionDate}. Ex: {ex}";
+        }
+
+        public static string ErrorWhenGettingCompleteHero(string feature, DateTime executionDate, string heroId, string ex)
+        {
+            return $"Error while executin {feature} looking for Public Hero Id {heroId} at {executionDate}. Ex: {ex}";
+        }
     }
 }
