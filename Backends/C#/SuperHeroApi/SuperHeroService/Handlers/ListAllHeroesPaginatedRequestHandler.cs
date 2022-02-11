@@ -42,6 +42,7 @@ namespace SuperHeroService.Handlers
 
                 response = pagedResponse.FromIPagedResponse<ListAllHeroesPaginatedResponse>();
                 response.Heroes = pagedResponse.Items;
+                response.StatusDescription = ProccessStatus.ProccessOk;
                 response.SetOk();
 
                 _processLog.Success = true;
@@ -51,10 +52,11 @@ namespace SuperHeroService.Handlers
             }
             catch (Exception ex)
             {
+                response.StatusDescription = ProccessStatus.ProccessNotOk;
+                response.SetInternalServerError();
                 _processLog.Success = false;
                 _processLog.Exception = ex;
                 _processLog.ProcessingStatus = ProccessStatus.ProccessNotOk;
-                response.SetInternalServerError();
             }
             finally
             {

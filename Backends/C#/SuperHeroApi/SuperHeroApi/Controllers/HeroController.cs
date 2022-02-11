@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using SuperHeroApi.Infrastructure;
 using SuperHeroDomain.QueryModel;
 using System.Threading;
-using SuperHeroDomain.CommandModel;
 
 namespace SuperHeroApi.Controllers
 {
@@ -37,13 +32,13 @@ namespace SuperHeroApi.Controllers
         }
 
 
-        [HttpPost("create_all_heroes")]
-        [AllowAnonymous]
-        public Task<IActionResult> CreateAllHeroes(CancellationToken cancellationToken = default)
-        {
-            CreateAllHeroesRequest request = new CreateAllHeroesRequest();
+        //[HttpPost("create_all_heroes")]
+        //[AllowAnonymous]
+        //public Task<IActionResult> CreateAllHeroes(CancellationToken cancellationToken = default)
+        //{
+        //    CreateAllHeroesRequest request = new CreateAllHeroesRequest();
 
-            return this.HandleQueryRequest<CreateAllHeroesRequest, CreateAllHeroesResponse>(request, cancellationToken);
-        }
+        //    return this.HandleQueryRequest<CreateAllHeroesRequest, CreateAllHeroesResponse>(request, cancellationToken);
+        //}
     }
 }

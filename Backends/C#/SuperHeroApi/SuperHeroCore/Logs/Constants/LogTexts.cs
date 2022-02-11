@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace SuperHeroCore.Logs.Constants
 {
@@ -23,7 +20,12 @@ namespace SuperHeroCore.Logs.Constants
             return $"Executing {feature} - Selecting Heroes from {pageFrom} to {pageSize} at {executionDate} ";
         }
 
-        public static string ListaAllHeroesPaginatedComplete(string feature, DateTime executionDate, int? heroes)
+        public static string ExecutionFeature(string feature, DateTime executionDate)
+        {
+            return $"Executing {feature} - Selecting all Heroes at {executionDate}.";
+        }
+
+        public static string EndingExecutionFeature(string feature, DateTime executionDate, int? heroes)
         {
             return $"{feature} executed - Total heroes founded {heroes} at {executionDate} ";
         }

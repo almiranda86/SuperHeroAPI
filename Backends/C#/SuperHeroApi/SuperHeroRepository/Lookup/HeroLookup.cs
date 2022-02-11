@@ -33,9 +33,26 @@ namespace SuperHeroRepository.Lookup
 
         public async Task<List<Hero>> GetAll()
         {
-            var result = await _session.Connection.QueryAsync<Hero>(LookupSQLQueries.GetAll());
+            List<Hero> result = new List<Hero>();
 
-            return result.ToList();
+            _logManager.AddTrace(LogTexts.ExecutionFeature(nameof(GetAll), DateTime.Now));
+
+            try
+            {
+                var queryResult = await _session.Connection.QueryAsync<Hero>(LookupSQLQueries.GetAll());
+
+                result = queryResult.ToList();
+            }
+            catch (Exception ex)
+            {
+                _logManager.AddError(Issues.LookupErroGetAll_0001, ex.Message, ex, ex.InnerException);
+
+                throw ex;
+            }
+
+            _logManager.AddTrace(LogTexts.EndingExecutionFeature(nameof(GetAllHeroesPaginated), DateTime.Now, result.Count()));
+
+            return result;
         }
 
         public async Task<QueryPagedResponse<Hero>> GetAllHeroesPaginated(IPagedRequest context)
@@ -75,7 +92,7 @@ namespace SuperHeroRepository.Lookup
                 TotalItems = totalItems
             };
 
-            _logManager.AddTrace(LogTexts.ListaAllHeroesPaginatedComplete(nameof(GetAllHeroesPaginated), DateTime.Now, response.TotalItems));
+            _logManager.AddTrace(LogTexts.EndingExecutionFeature(nameof(GetAllHeroesPaginated), DateTime.Now, response.TotalItems));
 
 
             return response;
@@ -83,7 +100,22 @@ namespace SuperHeroRepository.Lookup
 
         public async Task<int> GetCountHeroes()
         {
-            var result = await _session.Connection.QuerySingleAsync<int>(LookupSQLQueries.GetCountHeroes());
+            int result = 0;
+
+            _logManager.AddTrace(LogTexts.ExecutionFeature(nameof(GetCountHeroes), DateTime.Now));
+
+            try
+            {
+                result = await _session.Connection.QuerySingleAsync<int>(LookupSQLQueries.GetCountHeroes());
+            }
+            catch (Exception ex)
+            {
+                _logManager.AddError(Issues.LookupErrorGetCountHeroes_003, ex.Message, ex, ex.InnerException);
+
+                throw ex;
+            }
+
+            _logManager.AddTrace(LogTexts.EndingExecutionFeature(nameof(GetAllHeroesPaginated), DateTime.Now, result));
 
             return result;
         }
@@ -92,14 +124,20 @@ namespace SuperHeroRepository.Lookup
         {
             IEnumerable<Hero> result;
 
+            _logManager.AddTrace(LogTexts.ExecutionFeature(nameof(GetHeroByPublicId), DateTime.Now));
+
             try
             {
                 result = await _session.Connection.QueryAsync<Hero>(LookupSQLQueries.GetHeroByPublicId(), new { PUBLIC_ID = publicHeroId });
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex.InnerException);
+                _logManager.AddError(Issues.LookupErrorGetHeroByPublicId_004, ex.Message, ex, ex.InnerException);
+
+                throw ex;
             }
+
+            _logManager.AddTrace(LogTexts.EndingExecutionFeature(nameof(GetAllHeroesPaginated), DateTime.Now, result.ToList().Count()));
 
             return result.FirstOrDefault();
         }
@@ -108,14 +146,20 @@ namespace SuperHeroRepository.Lookup
         {
             IEnumerable<FullHero> result;
 
+            _logManager.AddTrace(LogTexts.ExecutionFeature(nameof(GetCompleteHero), DateTime.Now));
+
             try
             {
                 result = await _session.Connection.QueryAsync<FullHero>(LookupSQLQueries.GetCompleteHeroByPublicId(), new { PUBLIC_ID = publicHeroId });
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex.InnerException);
+                _logManager.AddError(Issues.LookupErrorGetCompleteHero_005, ex.Message, ex, ex.InnerException);
+
+                throw ex;
             }
+
+            _logManager.AddTrace(LogTexts.EndingExecutionFeature(nameof(GetCompleteHero), DateTime.Now, result.ToList().Count()));
 
             return result.FirstOrDefault();
         }

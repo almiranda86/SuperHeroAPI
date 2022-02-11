@@ -15,7 +15,11 @@ namespace SuperHeroCore.Enums
 
         GetCompleteHeroByPublicIdRequestHandler_0001,
 
+        LookupErroGetAll_0001,
         LookupErrorGetAllHeroesPaginated_0002,
+        LookupErrorGetCountHeroes_003,
+        LookupErrorGetHeroByPublicId_004,
+        LookupErrorGetCompleteHero_005,
         HeroPersisterError_0001
 
     }
