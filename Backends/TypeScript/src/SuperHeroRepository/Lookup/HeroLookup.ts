@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import {API_URI, API_TOKEN} from "../../SuperHeroCore/Config/Constants";
 
 

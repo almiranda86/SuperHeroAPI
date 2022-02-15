@@ -3,8 +3,6 @@
  * other components. They also don't depend on any concrete mediator classes.
  */
  
-import axios, { AxiosResponse } from 'axios';
-
 import {BaseComponent} from "../../SuperHeroMediator/BaseComponent";
 import { Mediator } from "../../SuperHeroMediator/Mediator";
 import { HeroLookup } from '../../SuperHeroRepository/Lookup/HeroLookup';
