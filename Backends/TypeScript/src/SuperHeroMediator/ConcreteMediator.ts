@@ -4,7 +4,7 @@
  */
 
 import { Mediator } from "./Mediator";
-import { GetCompleteHeroRequestHandler } from "../SuperHeroService/Handlres/GetCompleteHeroRequestHandler";
+import { GetCompleteHeroRequestHandler } from "../SuperHeroService/Handlers/GetCompleteHeroRequestHandler";
 
 export class ConcreteMediator implements Mediator {
     public _listAllHeroesRequestHandler: GetCompleteHeroRequestHandler;

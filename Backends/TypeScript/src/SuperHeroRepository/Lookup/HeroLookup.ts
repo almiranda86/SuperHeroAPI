@@ -1,10 +1,15 @@
 import axios from 'axios';
-import {API_URI, API_TOKEN} from "../../SuperHeroCore/Config/Constants";
+import { EntityRepository, getConnection, getCustomRepository, Repository } from 'typeorm';
+import {API_URI, API_TOKEN, DATA_BASE_CONNECTION_NAME} from "../../SuperHeroCore/Config/Constants";
+import { Hero } from '../../SuperHeroDomain/Model/HeroModel';
 
+@EntityRepository(Hero)
+export class HeroLookup extends Repository<Hero> {
 
-export class HeroLookup {
+    _databaseConnection: any;
+    _respository: any;
 
-    async getAllHeroes(sender: object) {
+    async finHeroById(sender: object) {
 
         const URL = `${API_URI}${API_TOKEN}`;
 
@@ -15,5 +20,12 @@ export class HeroLookup {
                          });
 
         return response;
+    }
+
+
+    async getAllHeroes(sender: object) {
+        this._respository = getCustomRepository(HeroLookup);
+        let result = this._respository.createQueryBuilder('hero').getMany();
+        return result;
     }
 }

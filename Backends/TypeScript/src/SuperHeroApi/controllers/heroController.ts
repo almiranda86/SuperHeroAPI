@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { Mediator } from '../../SuperHeroMediator/Mediator';
 
 import{ ConcreteMediator } from "../../SuperHeroMediator/ConcreteMediator";
-import {GetCompleteHeroRequestHandler} from "../../SuperHeroService/Handlres/GetCompleteHeroRequestHandler";
+import {GetCompleteHeroRequestHandler} from "../../SuperHeroService/Handlers/GetCompleteHeroRequestHandler";
 
 let _mediator: Mediator;
 let _concreteMediator: ConcreteMediator;

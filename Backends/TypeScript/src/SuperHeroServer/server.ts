@@ -3,6 +3,11 @@ import http from 'http';
 import express, { Express } from 'express';
 import morgan from 'morgan';
 import routes from '../SuperHeroRoutes/routes';
+import { createConnection } from 'typeorm';
+import DatabaseConfiguration from "../SuperHeroRepository/Configuration/DatabaseConfiguration";
+
+
+const PORT = process.env.PORT || 6060;
 
 const router: Express = express();
 
@@ -38,7 +43,13 @@ router.use((req, res, next) => {
     });
 });
 
-/** Server */
-const httpServer = http.createServer(router);
-const PORT: any = process.env.PORT ?? 6060;
-httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
+
+createConnection(DatabaseConfiguration).then(_connection => {
+    router.listen(PORT, () => {
+     /** Server */
+     console.log("Server is running on port", PORT);
+    });
+  }).catch(err => {
+    console.log("Unable to connect to db", err);
+    process.exit(1)
+  })
