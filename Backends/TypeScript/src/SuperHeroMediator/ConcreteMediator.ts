@@ -3,26 +3,17 @@
  * components.
  */
 
-import { Mediator } from "./Mediator";
-import { GetCompleteHeroRequestHandler } from "../SuperHeroService/Handlers/GetCompleteHeroRequestHandler";
-
-export class ConcreteMediator implements Mediator {
-    public _listAllHeroesRequestHandler: GetCompleteHeroRequestHandler;
-
-    constructor(listAllHeroesRequestHandler: GetCompleteHeroRequestHandler) {
-        this._listAllHeroesRequestHandler = listAllHeroesRequestHandler;
-        this._listAllHeroesRequestHandler.setMediator(this);
-    }
-
-    public async notify(sender: object, event: string): Promise<object | null> {
-       let response = null;
-        
-        if (event === 'A') {
-            let handleResult = await this._listAllHeroesRequestHandler.handleRequest(sender);
+ import { Mediator } from "./Mediator";
+ 
+ export class ConcreteMediator implements Mediator {
+     
+     public async handle(callback: Promise<any>): Promise<object | null> {
+          let response = null;
             
-            response = handleResult;
-        }
-        
-        return response;
-    }
-}
+          let handleResult = await callback.then((resultPromisse) => { return resultPromisse });
+          
+          response = handleResult;
+              
+          return response;
+     }
+ }

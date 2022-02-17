@@ -1,26 +1,32 @@
 /** source/controllers/hero.ts */
 import { Request, Response, NextFunction } from 'express';
-import { Mediator } from '../../SuperHeroMediator/Mediator';
-
-import{ ConcreteMediator } from "../../SuperHeroMediator/ConcreteMediator";
-import {GetCompleteHeroRequestHandler} from "../../SuperHeroService/Handlers/GetCompleteHeroRequestHandler";
-
-let _mediator: Mediator;
-let _concreteMediator: ConcreteMediator;
-let _getCompleteHeroRequestHandler: GetCompleteHeroRequestHandler;
+import { ListAllHeroesPaginatedRequestHanlder } from '../../SuperHeroService/Handlers/ListAllHeroesPaginatedRequestHanlder';
+import { ListAllHeroesRequestHandler } from "../../SuperHeroService/Handlers/ListAllHeroesRequestHandler";
 
 // getting all heroes
-const getAllHeroes = async (req: Request, res: Response, next: NextFunction) => {
-    // get some posts
+const listAllHeroes = async (req: Request, res: Response, next: NextFunction) => {
 
-    _getCompleteHeroRequestHandler= new GetCompleteHeroRequestHandler(_mediator);
-    _concreteMediator=new ConcreteMediator(_getCompleteHeroRequestHandler);
+    let _listAllHeroesRequestHandler = new ListAllHeroesRequestHandler();
     
-    let responseHandler = await _concreteMediator.notify(req, "A");
+    let response = await _listAllHeroesRequestHandler.handle(req);
 
-    return res.status(200).json({
-        message: responseHandler
+    return res.status(response.status).json({
+        data: response
     });
 };
 
-export default { getAllHeroes };
+// getting all heroes with pagination
+const getAllHeroesPaginated = async (req: Request, res: Response, next: NextFunction) => {
+    
+    let _listAllHeroesPaginatedRequestHanlder = new ListAllHeroesPaginatedRequestHanlder();
+    
+    let response = await _listAllHeroesPaginatedRequestHanlder.handle({page: req.query.page, pageSize: req.query.pageSize});
+
+    return res.status(response.status).json({
+        data: response
+    });
+};
+
+
+
+export default { listAllHeroes, getAllHeroesPaginated };

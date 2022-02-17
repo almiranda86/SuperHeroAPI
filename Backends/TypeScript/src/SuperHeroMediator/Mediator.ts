@@ -4,6 +4,6 @@
  * pass the execution to other components.
  */
 
-export interface Mediator {
-    notify(sender: object, event: string): void;
+ export interface Mediator<T> {
+    handle(requestObject: any): Promise<T>;
 }

@@ -3,7 +3,7 @@
  * instance inside component objects.
  */
 
-import {Mediator} from "./Mediator";
+ import {Mediator} from "./Mediator";
 
  export class BaseComponent {
     protected mediator: Mediator;
