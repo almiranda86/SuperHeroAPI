@@ -1,5 +1,6 @@
 import { ConnectionOptions } from "typeorm";
-import { Hero } from "../../SuperHeroDomain/Model";
+import { CompleteHero } from "../../SuperHeroDomain/Model/CompleteHeroModel";
+import { Hero } from "../../SuperHeroDomain/Model/HeroModel";
 
 const DatabaseConfiguration: ConnectionOptions = { 
         type: "postgres",
@@ -8,7 +9,7 @@ const DatabaseConfiguration: ConnectionOptions = {
         username: "root",
         password: "pwd@123",
         database: "dbHero",
-        entities: [Hero],
+        entities: [Hero, CompleteHero],
         synchronize: false
 }
 

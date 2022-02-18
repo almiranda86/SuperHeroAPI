@@ -1,6 +1,5 @@
 import { ServiceResponse } from "../../SuperHeroCore/ServiceResponse";
-import { PagedServiceResponseBase } from "../Infrastructure/PagedServiceResponseBase";
-import { Hero } from "../Model";
+import { Hero } from "../Model/HeroModel";
 
 
 export class ListAllHeroesResponse extends ServiceResponse{

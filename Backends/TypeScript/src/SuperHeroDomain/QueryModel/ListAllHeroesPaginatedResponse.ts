@@ -1,5 +1,5 @@
 import { PagedServiceResponseBase } from "../Infrastructure/PagedServiceResponseBase";
-import { Hero } from "../Model";
+import { Hero } from "../Model/HeroModel";
 
 
 export class ListAllHeroesPaginatedResponse extends PagedServiceResponseBase{
