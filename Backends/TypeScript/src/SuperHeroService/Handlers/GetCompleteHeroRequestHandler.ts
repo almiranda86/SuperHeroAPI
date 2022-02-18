@@ -24,7 +24,7 @@
          const response = await this._completeHeroLookup.getCompleteHero(requestObject.params.public_hero_id);
   
          if(response.length !=0 ){
-             _getCompleteHeroResult.CompleteHero = response.HERO;
+             _getCompleteHeroResult.complete_hero = response.HERO;
             _getCompleteHeroResult.SetOk();
             _getCompleteHeroResult.status_description = ProccessOk;
          }
