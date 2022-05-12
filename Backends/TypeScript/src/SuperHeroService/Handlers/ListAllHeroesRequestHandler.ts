@@ -4,12 +4,13 @@
  */
  
 import { ProccessOk } from "../../SuperHeroCore/Config/ProccessStatus";
+import { ListAllHeroesRequest } from "../../SuperHeroDomain/QueryModel/ListAllHeroesRequest";
 import { ListAllHeroesResponse } from "../../SuperHeroDomain/QueryModel/ListAllHeroesResponse";
 import { Mediator } from "../../SuperHeroMediator/Mediator";
 import { HeroLookup } from '../../SuperHeroRepository/Lookup/HeroLookup';
  
  
- export class ListAllHeroesRequestHandler implements Mediator<ListAllHeroesResponse> {
+ export class ListAllHeroesRequestHandler implements Mediator<ListAllHeroesRequest, ListAllHeroesResponse> {
      
      private _heroLookup: HeroLookup;
  
@@ -17,7 +18,7 @@ import { HeroLookup } from '../../SuperHeroRepository/Lookup/HeroLookup';
          this._heroLookup = new HeroLookup()
      }
      
-     async handle(requestObject: any): Promise<ListAllHeroesResponse> {
+     async handle(requestObject: ListAllHeroesRequest): Promise<ListAllHeroesResponse> {
         
         let _listAllHeroesResponse: ListAllHeroesResponse = new ListAllHeroesResponse();
 

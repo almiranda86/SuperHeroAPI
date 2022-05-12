@@ -4,12 +4,13 @@
  */
  
 import { ProccessOk } from "../../SuperHeroCore/Config/ProccessStatus";
+import { ListAllHeroesPaginatedRequest } from "../../SuperHeroDomain/QueryModel/ListAllHeroesPaginatedRequest";
 import { ListAllHeroesPaginatedResponse } from "../../SuperHeroDomain/QueryModel/ListAllHeroesPaginatedResponse";
 import { Mediator } from "../../SuperHeroMediator/Mediator";
 import { HeroLookup } from '../../SuperHeroRepository/Lookup/HeroLookup';
  
  
- export class ListAllHeroesPaginatedRequestHanlder implements Mediator<ListAllHeroesPaginatedResponse> {
+ export class ListAllHeroesPaginatedRequestHanlder implements Mediator<ListAllHeroesPaginatedRequest, ListAllHeroesPaginatedResponse> {
      
      private _heroLookup: HeroLookup;
  
@@ -17,11 +18,11 @@ import { HeroLookup } from '../../SuperHeroRepository/Lookup/HeroLookup';
          this._heroLookup = new HeroLookup()
      }
      
-     async handle(requestObject: any): Promise<ListAllHeroesPaginatedResponse> {
+     async handle(requestObject: ListAllHeroesPaginatedRequest): Promise<ListAllHeroesPaginatedResponse> {
         
         let _listAllHeroesPaginatedResponse: ListAllHeroesPaginatedResponse = new ListAllHeroesPaginatedResponse();
 
-        const response = await this._heroLookup.listAllHeroesPaginated(requestObject.page, requestObject.pageSize);
+        const response = await this._heroLookup.listAllHeroesPaginated(requestObject.page as number, requestObject.pageSize);
 
         if(response.length !=0 ){
             _listAllHeroesPaginatedResponse.heroes.push(response[0]);
